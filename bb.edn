@@ -1,7 +1,7 @@
 {:paths ["src/main/clojure" "script"]
  :deps  {org.clojure/tools.namespace
-         {:git/url "https://github.com/borkdude/tools.namespace"
-          :git/sha "9666c5988d365e155c09ce6519808bde1cf43325"}}
+         {:git/url "https://github.com/babashka/tools.namespace"
+          :git/sha "16b8c53174a5c9d89d6e0ce4128aa30b071aabdf"}}
  :tasks {require-deps (load-file "script/require_deps.clj")
          test {:doc "Run test with cognitect test runner"
                :depends [require-deps]
