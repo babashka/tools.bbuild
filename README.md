@@ -109,17 +109,11 @@ Latest release:
 
 [deps.edn](https://clojure.org/reference/deps_and_cli) dependency information:
 
-<<<<<<< HEAD
-```
-io.github.clojure/tools.build {:git/tag "v0.6.8" :git/sha "d79ae84"}
-```
-=======
 As a git dep:
 
 ```clojure
 io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
-``` 
->>>>>>> master
+```
 
 As a Maven dep:
 
