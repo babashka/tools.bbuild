@@ -109,11 +109,27 @@ Latest release:
 
 [deps.edn](https://clojure.org/reference/deps_and_cli) dependency information:
 
+<<<<<<< HEAD
 ```
 io.github.clojure/tools.build {:git/tag "v0.6.8" :git/sha "d79ae84"}
 ```
+=======
+As a git dep:
+
+```clojure
+io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+``` 
+>>>>>>> master
+
+As a Maven dep:
+
+```clojure
+org.clojure/tools.build {:mvn/version "0.9.0"}
+```
 
 # Developer Information
+
+[![Tests](https://github.com/clojure/tools.build/actions/workflows/ci.yml/badge.svg)](https://github.com/clojure/tools.build/actions/workflows/ci.yml)
 
 * [GitHub project](https://github.com/clojure/tools.build)
 * [How to contribute](https://clojure.org/community/contributing)
@@ -121,7 +137,7 @@ io.github.clojure/tools.build {:git/tag "v0.6.8" :git/sha "d79ae84"}
 
 # Copyright and License
 
-Copyright © 2021 Rich Hickey, Alex Miller, and contributors
+Copyright © 2022 Rich Hickey, Alex Miller, and contributors
 
 All rights reserved. The use and
 distribution terms for this software are covered by the

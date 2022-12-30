@@ -7,8 +7,14 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns clojure.tools.build.tasks.install
-  (:require [borkdude.tdn.bbuild :as bbuild]
-            [clojure.tools.build.api :as api]))
+  (:require
+    [borkdude.tdn.bbuild :as bbuild]
+    [clojure.java.io :as jio]
+    [clojure.tools.deps.util.maven :as mvn]
+    [clojure.tools.build.api :as api])
+  (:import
+    [org.eclipse.aether.artifact DefaultArtifact]
+    [org.eclipse.aether.installation InstallRequest]))
 
 (set! *warn-on-reflection* true)
 
