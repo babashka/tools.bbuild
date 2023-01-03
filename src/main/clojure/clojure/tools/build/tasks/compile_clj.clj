@@ -38,13 +38,13 @@
                           (map #(ns-name (:ns (meta %)))) ;; Var->namespace
                           distinct (remove #(= % 'clojure.core)))
         requires (map (fn [n] `(require '~n)) binding-nses)
-        do-compile (str `(with-bindings ~compile-bindings
-                           ~@(map (fn [n] `(~'compile '~n)) nses)
-                           (System/exit 0)))
+        do-compile `(with-bindings ~compile-bindings
+                      ~@(map (fn [n] `(~'compile '~n)) nses)
+                      (System/exit 0))
         script (->> (conj (vec requires) do-compile)
                     (map #(with-out-str (pprint/pprint %)))
                     (str/join (System/lineSeparator)))]
-    (spit script-file (pr-str script))))
+    (spit script-file script)))
 
 (defn- ns->path
   [ns-sym]
@@ -101,7 +101,9 @@
         ;; should all be relative to that (or absolute like working-compile-dir)
         process-args (process/java-command (merge
                                             (select-keys params [:java-cmd :java-opts :use-cp-file])
-                                            {:cp [(.getPath working-compile-dir) class-dir]
+                                            {:out :inherit
+                                             :err :inherit
+                                             :cp [(.getPath working-compile-dir) class-dir]
                                              :basis basis
                                              :main 'clojure.main
                                              :main-args [(.getCanonicalPath compile-script)]}))
@@ -111,7 +113,9 @@
       (do
         (if (seq filter-nses)
           (file/copy-contents working-compile-dir compile-dir-file (map ns->path filter-nses))
-          (file/copy-contents working-compile-dir compile-dir-file))
+          (do
+            (prn :copy working-compile-dir compile-dir-file)
+            (file/copy-contents working-compile-dir compile-dir-file)))
         ;; only delete on success, otherwise leave the evidence!
         (file/delete working-dir))
       (throw (ex-info (str "Clojure compilation failed, working dir preserved: " (.toString working-dir)) {})))))
