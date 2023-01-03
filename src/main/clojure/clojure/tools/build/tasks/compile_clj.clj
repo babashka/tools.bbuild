@@ -24,9 +24,9 @@
 
 (set! *warn-on-reflection* true)
 (intern 'clojure.core '*compile-path* nil)
-(alter-meta! #'clojure.core/*compile-path* assoc :dynamic true :ns 'clojure.core)
+(alter-meta! #'clojure.core/*compile-path* assoc :dynamic true :ns (find-ns 'clojure.core))
 (intern 'clojure.core '*compiler-options* nil)
-(alter-meta! #'clojure.core/*compiler-options* assoc :dynamic true :ns 'clojure.core)
+(alter-meta! #'clojure.core/*compiler-options* assoc :dynamic true :ns (find-ns 'clojure.core))
 (refer 'clojure.core :only [*compile-path* *compiler-options*])
 
 (defn- write-compile-script!
