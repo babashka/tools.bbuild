@@ -12,3 +12,4 @@ test-out
 .clj-kondo/.cache
 .vscode
 .lsp
+tools-deps-native
