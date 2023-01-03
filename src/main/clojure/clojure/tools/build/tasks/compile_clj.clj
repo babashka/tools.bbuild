@@ -23,7 +23,7 @@
     [java.nio.file.attribute FileAttribute]))
 
 (set! *warn-on-reflection* true)
-(intern 'clojure.core '*compile-path* nil)
+(intern 'clojure.core '*compile-path* "classes")
 (alter-meta! #'clojure.core/*compile-path* assoc :dynamic true :ns (find-ns 'clojure.core))
 (intern 'clojure.core '*compiler-options* nil)
 (alter-meta! #'clojure.core/*compiler-options* assoc :dynamic true :ns (find-ns 'clojure.core))
