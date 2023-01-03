@@ -32,19 +32,19 @@
 (defn- write-compile-script!
   ^File [^File script-file ^File compile-dir nses compiler-opts bindings]
   (let [compile-bindings (merge bindings
-                           {#'*compile-path* (.toString compile-dir)
-                            #'*compiler-options* compiler-opts})
+                                {#'*compile-path* (.toString compile-dir)
+                                 #'*compiler-options* compiler-opts})
         binding-nses (->> compile-bindings keys
-                       (map #(.. ^clojure.lang.Var % ns name)) ;; Var->namespace
-                       distinct (remove #(= % 'clojure.core)))
+                          (map #(ns-name (:ns (meta %)))) ;; Var->namespace
+                          distinct (remove #(= % 'clojure.core)))
         requires (map (fn [n] `(require '~n)) binding-nses)
-        do-compile `(with-bindings ~compile-bindings
-                      ~@(map (fn [n] `(~'compile '~n)) nses)
-                      (System/exit 0))
+        do-compile (str `(with-bindings ~compile-bindings
+                           ~@(map (fn [n] `(~'compile '~n)) nses)
+                           (System/exit 0)))
         script (->> (conj (vec requires) do-compile)
-                 (map #(with-out-str (pprint/pprint %)))
-                 (str/join (System/lineSeparator)))]
-    (spit script-file script)))
+                    (map #(with-out-str (pprint/pprint %)))
+                    (str/join (System/lineSeparator)))]
+    (spit script-file (pr-str script))))
 
 (defn- ns->path
   [ns-sym]
@@ -59,27 +59,27 @@
   (let [ns-decls (mapcat find/find-ns-decls-in-dir dirs)
         ns-candidates (set (map parse/name-from-ns-decl ns-decls))
         graph (reduce
-                (fn [graph decl]
-                  (let [sym (parse/name-from-ns-decl decl)]
-                    (reduce
-                      (fn [graph dep] (dependency/depend graph sym dep))
-                      graph
-                      (parse/deps-from-ns-decl decl))))
-                (dependency/graph)
-                ns-decls)]
+               (fn [graph decl]
+                 (let [sym (parse/name-from-ns-decl decl)]
+                   (reduce
+                    (fn [graph dep] (dependency/depend graph sym dep))
+                    graph
+                    (parse/deps-from-ns-decl decl))))
+               (dependency/graph)
+               ns-decls)]
     (->> graph
-      dependency/topo-sort
-      (filter ns-candidates) ;; only keep stuff in these dirs
-      (concat ns-candidates) ;; but make sure everything is in there at least once
-      distinct)))
+         dependency/topo-sort
+         (filter ns-candidates) ;; only keep stuff in these dirs
+         (concat ns-candidates) ;; but make sure everything is in there at least once
+         distinct)))
 
 (defn- basis-paths
   "Extract all path entries from basis, in classpath order"
   [{:keys [classpath classpath-roots]}]
   (let [path-set (->> classpath
-                   (filter #(contains? (val %) :path-key))
-                   (map key)
-                   set)]
+                      (filter #(contains? (val %) :path-key))
+                      (map key)
+                      set)]
     (filter path-set classpath-roots)))
 
 (defn compile-clj
@@ -100,11 +100,11 @@
         ;; java-command will run in context of *project-dir* - basis, classpaths, etc
         ;; should all be relative to that (or absolute like working-compile-dir)
         process-args (process/java-command (merge
-                                             (select-keys params [:java-cmd :java-opts :use-cp-file])
-                                             {:cp [(.getPath working-compile-dir) class-dir]
-                                              :basis basis
-                                              :main 'clojure.main
-                                              :main-args [(.getCanonicalPath compile-script)]}))
+                                            (select-keys params [:java-cmd :java-opts :use-cp-file])
+                                            {:cp [(.getPath working-compile-dir) class-dir]
+                                             :basis basis
+                                             :main 'clojure.main
+                                             :main-args [(.getCanonicalPath compile-script)]}))
         _ (spit (jio/file working-dir "compile.args") (str/join " " (:command-args process-args)))
         exit (:exit (process/process process-args))]
     (if (zero? exit)
