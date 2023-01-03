@@ -8,13 +8,8 @@
 
 (ns clojure.tools.build.tasks.install
   (:require
-    [borkdude.tdn.bbuild :as bbuild]
-    [clojure.java.io :as jio]
-    [clojure.tools.deps.util.maven :as mvn]
-    [clojure.tools.build.api :as api])
-  (:import
-    [org.eclipse.aether.artifact DefaultArtifact]
-    [org.eclipse.aether.installation InstallRequest]))
+   [borkdude.tdn.bbuild :as bbuild]
+   [clojure.tools.build.api :as api]))
 
 (set! *warn-on-reflection* true)
 
