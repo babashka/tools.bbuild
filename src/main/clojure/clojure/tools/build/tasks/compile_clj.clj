@@ -113,9 +113,7 @@
       (do
         (if (seq filter-nses)
           (file/copy-contents working-compile-dir compile-dir-file (map ns->path filter-nses))
-          (do
-            (prn :copy working-compile-dir compile-dir-file)
-            (file/copy-contents working-compile-dir compile-dir-file)))
+          (file/copy-contents working-compile-dir compile-dir-file))
         ;; only delete on success, otherwise leave the evidence!
         (file/delete working-dir))
       (throw (ex-info (str "Clojure compilation failed, working dir preserved: " (.toString working-dir)) {})))))
