@@ -70,10 +70,6 @@
           (is (str/includes? manifest-out "Main-Class: baz"))
           (is (str/includes? manifest-out "Custom-Thing: 100")))))))
 
-(defmacro reader-conditional
-  [form splicing?]
-  form )
-
 (deftest test-conflicts
   (with-test-dir "test-data/uber-conflict"
     (api/set-project-root! (.getAbsolutePath *test-dir*))
