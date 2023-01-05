@@ -1,5 +1,6 @@
 (ns clojure.tools.build.api
   (:require
+    [clojure.tools.build.util.pod] ;; this must be loaded first!
     [clojure.java.io :as jio]
     [clojure.set :as set]
     [clojure.spec.alpha :as s]

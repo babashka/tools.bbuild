@@ -1,8 +1,6 @@
 {:paths ["src/main/clojure" "script"]
  :deps  {io.github.babashka/tools.bbuild {:local/root "."}}
- :tasks {require-deps (load-file "script/require_deps.clj")
-         test {:doc "Run test with cognitect test runner"
-               :depends [require-deps]
+ :tasks {test {:doc "Run test with cognitect test runner"
                :extra-paths ["src/test/clojure"]
                :extra-deps
                {io.github.cognitect-labs/test-runner
