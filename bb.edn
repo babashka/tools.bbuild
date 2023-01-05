@@ -1,4 +1,4 @@
-{:paths ["src/main/clojure" "script"]
+{:paths ["bb"]
  :deps  {io.github.babashka/tools.bbuild {:local/root "."}}
  :tasks {test {:doc "Run test with cognitect test runner"
                :extra-paths ["src/test/clojure"]
