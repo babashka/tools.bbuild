@@ -8,6 +8,7 @@
 
 (ns clojure.tools.build.tasks.install
   (:require
+   [clojure.tools.build.util.pod] ;; this needs to be loaded first!
    [borkdude.tdn.bbuild :as bbuild]
    [clojure.tools.build.api :as api]))
 
