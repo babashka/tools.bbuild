@@ -4,11 +4,11 @@
 Use `resolve-path` to resolve relative paths in terms of the *project-root*.
 Use `set-project-root!` to override the default for all tasks.</pre></div></div><div class="public anchor" id="var-compile-clj"><h3>compile-clj</h3><div class="usage"><code>(compile-clj params)</code></div><div class="doc"><pre class="plaintext">Compile Clojure source to classes in :class-dir.
 
-Clojure source files are found in :basis paths by default, else in :src-dirs.
+Clojure source files are found in :basis :paths by default, or override with :src-dirs.
 
 Namespaces and order of compilation are one of:
   * :ns-compile - compile these namespaces, in this order
-  * :sort - find all namespaces in source dirs and use either :topo (default)
+  * :sort - find all namespaces in source files and use either :topo (default)
             or :bfs to order them for compilation
 
 Options:
@@ -274,7 +274,18 @@ Options:
          See: <a href="https://maven.apache.org/pom.html#SCM">https://maven.apache.org/pom.html#SCM</a> for details
   :src-dirs - coll of src dirs
   :resource-dirs - coll of resource dirs
-  :repos - map of repo name to repo config, replaces repos from deps.edn</pre></div></div><div class="public anchor" id="var-zip"><h3>zip</h3><div class="usage"><code>(zip params)</code></div><div class="doc"><pre class="plaintext">Create zip file containing contents of src dirs. Returns nil.
+  :repos - map of repo name to repo config, replaces repos from deps.edn
+  :pom-data - vector of hiccup-style extra pom top elements to include when
+    no :src-pom is provided:
+     [[:licenses
+       [:license
+        [:name "Eclipse Public License 1.0"]
+        [:url "<a href="https://opensource.org/license/epl-1-0/&quot;">https://opensource.org/license/epl-1-0/"</a>;]
+        [:distribution "repo"]]]
+      [:organization "Super Corp"]]
+    The pom-data MUST NOT include:
+      :modelVersion, :packaging, :groupId, :artifactId, :version, :name,
+      :deps, :repositories, :build, or :scm</pre></div></div><div class="public anchor" id="var-zip"><h3>zip</h3><div class="usage"><code>(zip params)</code></div><div class="doc"><pre class="plaintext">Create zip file containing contents of src dirs. Returns nil.
 
 Options:
   :src-dirs - required, coll of source directories to include in zip

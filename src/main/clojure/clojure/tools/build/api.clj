@@ -278,11 +278,11 @@
 (defn compile-clj
   "Compile Clojure source to classes in :class-dir.
 
-  Clojure source files are found in :basis paths by default, else in :src-dirs.
+  Clojure source files are found in :basis :paths by default, or override with :src-dirs.
 
   Namespaces and order of compilation are one of:
     * :ns-compile - compile these namespaces, in this order
-    * :sort - find all namespaces in source dirs and use either :topo (default)
+    * :sort - find all namespaces in source files and use either :topo (default)
               or :bfs to order them for compilation
 
   Options:
@@ -386,7 +386,18 @@
            See: https://maven.apache.org/pom.html#SCM for details
     :src-dirs - coll of src dirs
     :resource-dirs - coll of resource dirs
-    :repos - map of repo name to repo config, replaces repos from deps.edn"
+    :repos - map of repo name to repo config, replaces repos from deps.edn
+    :pom-data - vector of hiccup-style extra pom top elements to include when
+      no :src-pom is provided:
+       [[:licenses
+         [:license
+          [:name \"Eclipse Public License 1.0\"]
+          [:url \"https://opensource.org/license/epl-1-0/\"]
+          [:distribution \"repo\"]]]
+        [:organization \"Super Corp\"]]
+      The pom-data MUST NOT include:
+        :modelVersion, :packaging, :groupId, :artifactId, :version, :name,
+        :deps, :repositories, :build, or :scm"
   [params]
   (assert-required "write-pom" params [:basis :lib :version])
   (assert-specs "write-pom" params
@@ -397,7 +408,8 @@
     :version string?
     :scm map?
     :src-dirs ::specs/paths
-    :resource-dirs ::specs/paths)
+    :resource-dirs ::specs/paths
+    :pom-data vector?)
   ((requiring-resolve 'clojure.tools.build.tasks.write-pom/write-pom) params))
 
 (defn jar
