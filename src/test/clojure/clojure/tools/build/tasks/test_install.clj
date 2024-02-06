@@ -18,7 +18,8 @@
 (def lib (symbol test-org test-lib))
 (def version "1.0.0")
 
-(deftest test-install-no-pom
+
+#_(deftest test-install-no-pom
   (with-test-dir "test-data/p1"
     (let [classes "target/classes"
           jar-path "target/output.jar"

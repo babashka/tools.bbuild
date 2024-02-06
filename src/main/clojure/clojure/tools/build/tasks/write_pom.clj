@@ -24,8 +24,7 @@
            [java.util Date]))
 
 (xml/alias-uri 'pom "http://maven.apache.org/POM/4.0.0")
-(def ^:private pom-ns (name (.-name ^clojure.lang.Namespace (get (ns-aliases *ns*) 'pom))))
-
+(def ^:private pom-ns (name (ns-name ^clojure.lang.Namespace (get (ns-aliases *ns*) 'pom))))
 
 (defn- to-dep
   [[lib {:keys [mvn/version exclusions optional] :as coord}]]
