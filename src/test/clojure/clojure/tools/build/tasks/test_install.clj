@@ -19,7 +19,7 @@
 (def version "1.0.0")
 
 
-#_(deftest test-install-no-pom
+(deftest test-install-no-pom
   (with-test-dir "test-data/p1"
     (let [classes "target/classes"
           jar-path "target/output.jar"
