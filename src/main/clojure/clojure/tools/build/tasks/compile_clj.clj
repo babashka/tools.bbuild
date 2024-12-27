@@ -102,6 +102,8 @@
         working-compile-dir (file/ensure-dir (jio/file working-dir "compile-clj"))
         compile-script (jio/file working-dir "compile.clj")
         _ (write-compile-script! compile-script working-compile-dir nses compile-opts bindings)
+        _ (println "compile script:\n\n")
+        _ (println (slurp compile-script))
 
         ;; java-command will run in context of *project-dir* - basis, classpaths, etc
         ;; should all be relative to that (or absolute like working-compile-dir)
@@ -111,6 +113,9 @@
                                               :basis basis
                                               :main 'clojure.main
                                               :main-args [(.getCanonicalPath compile-script)]}))
+        _ (println "process args:")
+        _ (println process-args)
+        _ (prn process-args)
         _ (spit (jio/file working-dir "compile.args") (str/join " " (:command-args process-args)))
         exit (:exit (process/process process-args))]
     (if (zero? exit)

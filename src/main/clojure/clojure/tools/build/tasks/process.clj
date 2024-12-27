@@ -46,6 +46,9 @@
     :ignore - ignore the stream"
   [{:keys [command-args dir env out err out-file err-file]
     :or {dir ".", out :inherit, err :inherit} :as opts}]
+  (println "command args")
+  (println command-args)
+  (prn command-args)
   (when (not (seq command-args))
     (throw (ex-info "process missing required arg :command-args" opts)))
   (let [pb (ProcessBuilder. ^List command-args)]
