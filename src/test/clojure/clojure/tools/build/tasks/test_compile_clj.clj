@@ -41,8 +41,16 @@
       str/split-lines
       first))
 
+(defn java-version []
+  (-> (api/process {:command-args [(find-java) "-version"]
+                    :out :capture})
+      :out
+      str/split-lines
+      first))
+
 (deftest test-compile-passthrough-opts
   (prn :java-version (System/getProperty "java.version"))
+  (prn :java-version (java-version))
   (when-not (str/starts-with? (System/getProperty "java.version") "1.")
     (let [java-cmd (find-java)]
       (with-test-dir "test-data/p1"
