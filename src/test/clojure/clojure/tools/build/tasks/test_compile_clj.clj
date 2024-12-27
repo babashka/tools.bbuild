@@ -42,6 +42,7 @@
       first))
 
 (deftest test-compile-passthrough-opts
+  (prn :java-version (System/getProperty "java.version"))
   (when-not (str/starts-with? (System/getProperty "java.version") "1.")
     (let [java-cmd (find-java)]
       (with-test-dir "test-data/p1"
